@@ -20,9 +20,28 @@ class GitBashRule(MappingRule):
         "(git|get) (initialize repository|init)":
             Text("git init"),
         "(git|get) add":
-            R(Key("g, i, t, space, a, d, d, space, dot")),
+            R(Text("git add")),
+        "(git|get) add patching":
+            R(Text("git add -p ")),
         "(git|get) add all":
             R(Key(GIT_ADD_ALL)),
+
+
+
+        "(git|get) diff [<option>]":
+            R(Text("git diff %(option)s")),
+        "(git|get) diff [<option>] all":
+            R(Text("git diff %(option)s .")),
+
+        
+
+        "(git|get) restore [<option>]":
+            R(Text("git diff %(option)s")),
+        "(git|get) diff [<option>] all":
+            R(Text("git diff %(option)s .")),
+
+
+
         "(git|get) commit all":
             R(Key("%s, ;, space, %s" % (GIT_ADD_ALL, GIT_COMMIT))),
         "(git|get) status":
@@ -102,8 +121,20 @@ class GitBashRule(MappingRule):
     }
     extras = [
         ShortIntegerRef("n", 1, 10000),
+        Choice("option",
+            {
+            "staged": "--staged",
+            "": "", 
+            }),
+        Choice("inverted_option",
+            {
+            "unstaged": "--staged",
+            "": "", 
+            }),
     ]
-    defaults = {"n": 0}
+    defaults = {
+        "n": 0,
+    }
 
 
 _executables = [
@@ -115,7 +146,8 @@ _executables = [
     "idea",
     "idea64",
     "studio64",
-    "pycharm"
+    "pycharm",
+    "\\WindowsTerminal.exe"
 ]
 
 
