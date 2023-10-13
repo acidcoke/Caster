@@ -1,4 +1,4 @@
-from dragonfly import Mimic, Function, MappingRule, ShortIntegerRef
+from dragonfly import Mimic, Function, MappingRule, ShortIntegerRef, Choice
 
 from castervoice.lib.actions import Key, Text
 
