@@ -19,26 +19,12 @@ class GitBashRule(MappingRule):
             Text("git "),
         "(git|get) (initialize repository|init)":
             Text("git init"),
-        "(git|get) add":
-            R(Text("git add")),
-        "(git|get) add patching":
-            R(Text("git add -p ")),
-        "(git|get) add all":
-            R(Key(GIT_ADD_ALL)),
-
-
-
-        "(git|get) diff [<option>]":
-            R(Text("git diff %(option)s")),
-        "(git|get) diff [<option>] all":
-            R(Text("git diff %(option)s .")),
-
-        
-
-        "(git|get) restore [<option>]":
-            R(Text("git diff %(option)s")),
-        "(git|get) diff [<option>] all":
-            R(Text("git diff %(option)s .")),
+        "(git|get) add [<patch>] [<all>]":
+            R(Text("git add %(patch)s%(all)s")),
+        "(git|get) diff [<staged>] [<all>]":
+            R(Text("git diff %(staged)s%(all)s")),
+        "(git|get) restore [<staged>] [<patch>] [<all>]":
+            R(Text("git restore %(staged)s%(patch)s%(all)s")),
 
 
 
@@ -121,16 +107,22 @@ class GitBashRule(MappingRule):
     }
     extras = [
         ShortIntegerRef("n", 1, 10000),
-        Choice("option",
+        Choice("staged",
             {
-            "staged": "--staged",
+            "staged": "--staged ",
             "": "", 
             }),
-        Choice("inverted_option",
+        Choice("patch",
             {
-            "unstaged": "--staged",
+            "patch": "-p ",
             "": "", 
             }),
+        Choice("all",
+            {
+            "all": ". ",
+            "": "", 
+            }),
+        
     ]
     defaults = {
         "n": 0,
